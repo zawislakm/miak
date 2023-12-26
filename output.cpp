@@ -1,7 +1,7 @@
 #include <iostream> 
  using namespace std;
 int main() {
-// xd
+// Test comment
 auto test = "Test string";
 cout<<test<<endl;
 cout<<"Pętla for:"<<endl;

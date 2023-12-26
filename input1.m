@@ -1,4 +1,4 @@
-% xd
+% Test comment
 test = "Test string";
 disp(test);
 
