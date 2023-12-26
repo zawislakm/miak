@@ -1,96 +1,85 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    BREAK
-    COLON
-    COMPARISON
-    DECREMENT
-    DIVIDE
-    FOR
-    GREATER
-    GREATEREQUAL
-    INCREMENT
-    INT
-    LBRACKET
-    LESS
-    LESSEQUAL
-    MINUS
-    MODULO
-    PLUS
-    RBRACKET
-    STRING
-    TIMES
-
 Grammar
 
 Rule 0     S' -> program
 Rule 1     program -> body
 Rule 2     program -> empty
 Rule 3     expression -> NUMBER
-Rule 4     expression -> ID
-Rule 5     body -> line body
-Rule 6     body -> empty
-Rule 7     empty -> <empty>
-Rule 8     line -> statement SEMICOLON
-Rule 9     line -> expression SEMICOLON
-Rule 10    line -> if_statement
-Rule 11    if_statement -> IF expression body END
-Rule 12    if_statement -> IF expression body ELSE body END
-Rule 13    statement -> ID EQUALS expression
-Rule 14    statement -> RETURN expression
-Rule 15    statement -> RETURN
-Rule 16    expression -> LPAREN expression RPAREN
-Rule 17    function_args -> expression COMMA function_args
-Rule 18    function_args -> expression
-Rule 19    function_args -> empty
-Rule 20    expression -> DISP LPAREN expression RPAREN
+Rule 4     expression -> STRING
+Rule 5     expression -> ID
+Rule 6     body -> line body
+Rule 7     body -> empty
+Rule 8     empty -> <empty>
+Rule 9     line -> statement SEMICOLON
+Rule 10    line -> expression SEMICOLON
+Rule 11    line -> if_statement
+Rule 12    line -> loop_statement
+Rule 13    line -> COMMENT
+Rule 14    if_statement -> IF expression body END
+Rule 15    if_statement -> IF expression body ELSE body END
+Rule 16    loop_statement -> WHILE expression body END
+Rule 17    loop_statement -> FOR expression EQUALS expression COLON expression body END
+Rule 18    loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END
+Rule 19    statement -> ID EQUALS expression
+Rule 20    expression -> LPAREN expression RPAREN
+Rule 21    compare_operator -> COMPARISON
+Rule 22    compare_operator -> GREATER
+Rule 23    compare_operator -> LESS
+Rule 24    compare_operator -> LESSEQUAL
+Rule 25    compare_operator -> GREATEREQUAL
+Rule 26    expression -> expression compare_operator expression
+Rule 27    math_operator -> PLUS
+Rule 28    math_operator -> MINUS
+Rule 29    math_operator -> TIMES
+Rule 30    math_operator -> DIVIDE
+Rule 31    expression -> expression math_operator expression
+Rule 32    expression -> DISP LPAREN expression RPAREN
+Rule 33    expression -> DISP LPAREN STRING RPAREN
+Rule 34    expression -> MOD LPAREN expression COMMA expression RPAREN
 
 Terminals, with rules where they appear
 
-BREAK                : 
-COLON                : 
-COMMA                : 17
-COMPARISON           : 
-DECREMENT            : 
-DISP                 : 20
-DIVIDE               : 
-ELSE                 : 12
-END                  : 11 12
-EQUALS               : 13
-FOR                  : 
-GREATER              : 
-GREATEREQUAL         : 
-ID                   : 4 13
-IF                   : 11 12
-INCREMENT            : 
-INT                  : 
-LBRACKET             : 
-LESS                 : 
-LESSEQUAL            : 
-LPAREN               : 16 20
-MINUS                : 
-MODULO               : 
+COLON                : 17 18 18
+COMMA                : 34
+COMMENT              : 13
+COMPARISON           : 21
+DISP                 : 32 33
+DIVIDE               : 30
+ELSE                 : 15
+END                  : 14 15 16 17 18
+EQUALS               : 17 18 19
+FOR                  : 17 18
+GREATER              : 22
+GREATEREQUAL         : 25
+ID                   : 5 19
+IF                   : 14 15
+LESS                 : 23
+LESSEQUAL            : 24
+LPAREN               : 20 32 33 34
+MINUS                : 28
+MOD                  : 34
 NUMBER               : 3
-PLUS                 : 
-RBRACKET             : 
-RETURN               : 14 15
-RPAREN               : 16 20
-SEMICOLON            : 8 9
-STRING               : 
-TIMES                : 
+PLUS                 : 27
+RPAREN               : 20 32 33 34
+SEMICOLON            : 9 10
+STRING               : 4 33
+TIMES                : 29
+WHILE                : 16
 error                : 
 
 Nonterminals, with rules where they appear
 
-body                 : 1 5 11 12 12
-empty                : 2 6 19
-expression           : 9 11 12 13 14 16 17 18 20
-function_args        : 17
-if_statement         : 10
-line                 : 5
+body                 : 1 6 14 15 15 16 17 18
+compare_operator     : 26
+empty                : 2 7
+expression           : 10 14 15 16 17 17 17 18 18 18 18 19 20 26 26 31 31 32 34 34
+if_statement         : 11
+line                 : 6
+loop_statement       : 12
+math_operator        : 31
 program              : 0
-statement            : 8
+statement            : 9
 
 Parsing method: LALR
 
@@ -99,29 +88,41 @@ state 0
     (0) S' -> . program
     (1) program -> . body
     (2) program -> . empty
-    (5) body -> . line body
-    (6) body -> . empty
-    (7) empty -> .
-    (8) line -> . statement SEMICOLON
-    (9) line -> . expression SEMICOLON
-    (10) line -> . if_statement
-    (13) statement -> . ID EQUALS expression
-    (14) statement -> . RETURN expression
-    (15) statement -> . RETURN
+    (6) body -> . line body
+    (7) body -> . empty
+    (8) empty -> .
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (19) statement -> . ID EQUALS expression
     (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
-    (11) if_statement -> . IF expression body END
-    (12) if_statement -> . IF expression body ELSE body END
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
 
-    $end            reduce using rule 7 (empty -> .)
-    ID              shift and go to state 8
-    RETURN          shift and go to state 9
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
-    IF              shift and go to state 13
+    $end            reduce using rule 8 (empty -> .)
+    COMMENT         shift and go to state 9
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
 
     program                        shift and go to state 1
     body                           shift and go to state 2
@@ -130,6 +131,7 @@ state 0
     statement                      shift and go to state 5
     expression                     shift and go to state 6
     if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
 
 state 1
 
@@ -147,430 +149,1700 @@ state 2
 state 3
 
     (2) program -> empty .
-    (6) body -> empty .
+    (7) body -> empty .
 
   ! reduce/reduce conflict for $end resolved using rule 2 (program -> empty .)
     $end            reduce using rule 2 (program -> empty .)
 
-  ! $end            [ reduce using rule 6 (body -> empty .) ]
+  ! $end            [ reduce using rule 7 (body -> empty .) ]
 
 
 state 4
 
-    (5) body -> line . body
-    (5) body -> . line body
-    (6) body -> . empty
-    (8) line -> . statement SEMICOLON
-    (9) line -> . expression SEMICOLON
-    (10) line -> . if_statement
-    (7) empty -> .
-    (13) statement -> . ID EQUALS expression
-    (14) statement -> . RETURN expression
-    (15) statement -> . RETURN
+    (6) body -> line . body
+    (6) body -> . line body
+    (7) body -> . empty
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (8) empty -> .
+    (19) statement -> . ID EQUALS expression
     (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
-    (11) if_statement -> . IF expression body END
-    (12) if_statement -> . IF expression body ELSE body END
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
 
-    $end            reduce using rule 7 (empty -> .)
-    END             reduce using rule 7 (empty -> .)
-    ELSE            reduce using rule 7 (empty -> .)
-    ID              shift and go to state 8
-    RETURN          shift and go to state 9
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
-    IF              shift and go to state 13
+    COMMENT         shift and go to state 9
+    $end            reduce using rule 8 (empty -> .)
+    END             reduce using rule 8 (empty -> .)
+    ELSE            reduce using rule 8 (empty -> .)
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
 
     line                           shift and go to state 4
-    body                           shift and go to state 14
-    empty                          shift and go to state 15
+    body                           shift and go to state 19
+    empty                          shift and go to state 20
     statement                      shift and go to state 5
     expression                     shift and go to state 6
     if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
 
 state 5
 
-    (8) line -> statement . SEMICOLON
+    (9) line -> statement . SEMICOLON
 
-    SEMICOLON       shift and go to state 16
+    SEMICOLON       shift and go to state 21
 
 
 state 6
 
-    (9) line -> expression . SEMICOLON
+    (10) line -> expression . SEMICOLON
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
 
-    SEMICOLON       shift and go to state 17
+    SEMICOLON       shift and go to state 22
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
 
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
 
 state 7
 
-    (10) line -> if_statement .
+    (11) line -> if_statement .
 
-    ID              reduce using rule 10 (line -> if_statement .)
-    RETURN          reduce using rule 10 (line -> if_statement .)
-    NUMBER          reduce using rule 10 (line -> if_statement .)
-    LPAREN          reduce using rule 10 (line -> if_statement .)
-    DISP            reduce using rule 10 (line -> if_statement .)
-    IF              reduce using rule 10 (line -> if_statement .)
-    $end            reduce using rule 10 (line -> if_statement .)
-    END             reduce using rule 10 (line -> if_statement .)
-    ELSE            reduce using rule 10 (line -> if_statement .)
+    COMMENT         reduce using rule 11 (line -> if_statement .)
+    ID              reduce using rule 11 (line -> if_statement .)
+    NUMBER          reduce using rule 11 (line -> if_statement .)
+    STRING          reduce using rule 11 (line -> if_statement .)
+    LPAREN          reduce using rule 11 (line -> if_statement .)
+    DISP            reduce using rule 11 (line -> if_statement .)
+    MOD             reduce using rule 11 (line -> if_statement .)
+    IF              reduce using rule 11 (line -> if_statement .)
+    WHILE           reduce using rule 11 (line -> if_statement .)
+    FOR             reduce using rule 11 (line -> if_statement .)
+    $end            reduce using rule 11 (line -> if_statement .)
+    END             reduce using rule 11 (line -> if_statement .)
+    ELSE            reduce using rule 11 (line -> if_statement .)
 
 
 state 8
 
-    (13) statement -> ID . EQUALS expression
-    (4) expression -> ID .
+    (12) line -> loop_statement .
 
-    EQUALS          shift and go to state 18
-    SEMICOLON       reduce using rule 4 (expression -> ID .)
+    COMMENT         reduce using rule 12 (line -> loop_statement .)
+    ID              reduce using rule 12 (line -> loop_statement .)
+    NUMBER          reduce using rule 12 (line -> loop_statement .)
+    STRING          reduce using rule 12 (line -> loop_statement .)
+    LPAREN          reduce using rule 12 (line -> loop_statement .)
+    DISP            reduce using rule 12 (line -> loop_statement .)
+    MOD             reduce using rule 12 (line -> loop_statement .)
+    IF              reduce using rule 12 (line -> loop_statement .)
+    WHILE           reduce using rule 12 (line -> loop_statement .)
+    FOR             reduce using rule 12 (line -> loop_statement .)
+    $end            reduce using rule 12 (line -> loop_statement .)
+    END             reduce using rule 12 (line -> loop_statement .)
+    ELSE            reduce using rule 12 (line -> loop_statement .)
 
 
 state 9
 
-    (14) statement -> RETURN . expression
-    (15) statement -> RETURN .
-    (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
+    (13) line -> COMMENT .
 
-    SEMICOLON       reduce using rule 15 (statement -> RETURN .)
-    NUMBER          shift and go to state 10
-    ID              shift and go to state 20
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
+    COMMENT         reduce using rule 13 (line -> COMMENT .)
+    ID              reduce using rule 13 (line -> COMMENT .)
+    NUMBER          reduce using rule 13 (line -> COMMENT .)
+    STRING          reduce using rule 13 (line -> COMMENT .)
+    LPAREN          reduce using rule 13 (line -> COMMENT .)
+    DISP            reduce using rule 13 (line -> COMMENT .)
+    MOD             reduce using rule 13 (line -> COMMENT .)
+    IF              reduce using rule 13 (line -> COMMENT .)
+    WHILE           reduce using rule 13 (line -> COMMENT .)
+    FOR             reduce using rule 13 (line -> COMMENT .)
+    $end            reduce using rule 13 (line -> COMMENT .)
+    END             reduce using rule 13 (line -> COMMENT .)
+    ELSE            reduce using rule 13 (line -> COMMENT .)
 
-    expression                     shift and go to state 19
 
 state 10
 
-    (3) expression -> NUMBER .
+    (19) statement -> ID . EQUALS expression
+    (5) expression -> ID .
 
-    SEMICOLON       reduce using rule 3 (expression -> NUMBER .)
-    RPAREN          reduce using rule 3 (expression -> NUMBER .)
-    ID              reduce using rule 3 (expression -> NUMBER .)
-    RETURN          reduce using rule 3 (expression -> NUMBER .)
-    NUMBER          reduce using rule 3 (expression -> NUMBER .)
-    LPAREN          reduce using rule 3 (expression -> NUMBER .)
-    DISP            reduce using rule 3 (expression -> NUMBER .)
-    IF              reduce using rule 3 (expression -> NUMBER .)
-    END             reduce using rule 3 (expression -> NUMBER .)
-    ELSE            reduce using rule 3 (expression -> NUMBER .)
+    EQUALS          shift and go to state 34
+    SEMICOLON       reduce using rule 5 (expression -> ID .)
+    COMPARISON      reduce using rule 5 (expression -> ID .)
+    GREATER         reduce using rule 5 (expression -> ID .)
+    LESS            reduce using rule 5 (expression -> ID .)
+    LESSEQUAL       reduce using rule 5 (expression -> ID .)
+    GREATEREQUAL    reduce using rule 5 (expression -> ID .)
+    PLUS            reduce using rule 5 (expression -> ID .)
+    MINUS           reduce using rule 5 (expression -> ID .)
+    TIMES           reduce using rule 5 (expression -> ID .)
+    DIVIDE          reduce using rule 5 (expression -> ID .)
 
 
 state 11
 
-    (16) expression -> LPAREN . expression RPAREN
-    (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
+    (3) expression -> NUMBER .
 
-    NUMBER          shift and go to state 10
-    ID              shift and go to state 20
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
+    SEMICOLON       reduce using rule 3 (expression -> NUMBER .)
+    COMPARISON      reduce using rule 3 (expression -> NUMBER .)
+    GREATER         reduce using rule 3 (expression -> NUMBER .)
+    LESS            reduce using rule 3 (expression -> NUMBER .)
+    LESSEQUAL       reduce using rule 3 (expression -> NUMBER .)
+    GREATEREQUAL    reduce using rule 3 (expression -> NUMBER .)
+    PLUS            reduce using rule 3 (expression -> NUMBER .)
+    MINUS           reduce using rule 3 (expression -> NUMBER .)
+    TIMES           reduce using rule 3 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 3 (expression -> NUMBER .)
+    RPAREN          reduce using rule 3 (expression -> NUMBER .)
+    COMMENT         reduce using rule 3 (expression -> NUMBER .)
+    ID              reduce using rule 3 (expression -> NUMBER .)
+    NUMBER          reduce using rule 3 (expression -> NUMBER .)
+    STRING          reduce using rule 3 (expression -> NUMBER .)
+    LPAREN          reduce using rule 3 (expression -> NUMBER .)
+    DISP            reduce using rule 3 (expression -> NUMBER .)
+    MOD             reduce using rule 3 (expression -> NUMBER .)
+    IF              reduce using rule 3 (expression -> NUMBER .)
+    WHILE           reduce using rule 3 (expression -> NUMBER .)
+    FOR             reduce using rule 3 (expression -> NUMBER .)
+    END             reduce using rule 3 (expression -> NUMBER .)
+    ELSE            reduce using rule 3 (expression -> NUMBER .)
+    EQUALS          reduce using rule 3 (expression -> NUMBER .)
+    COMMA           reduce using rule 3 (expression -> NUMBER .)
+    COLON           reduce using rule 3 (expression -> NUMBER .)
 
-    expression                     shift and go to state 21
 
 state 12
 
-    (20) expression -> DISP . LPAREN expression RPAREN
+    (4) expression -> STRING .
 
-    LPAREN          shift and go to state 22
+    SEMICOLON       reduce using rule 4 (expression -> STRING .)
+    COMPARISON      reduce using rule 4 (expression -> STRING .)
+    GREATER         reduce using rule 4 (expression -> STRING .)
+    LESS            reduce using rule 4 (expression -> STRING .)
+    LESSEQUAL       reduce using rule 4 (expression -> STRING .)
+    GREATEREQUAL    reduce using rule 4 (expression -> STRING .)
+    PLUS            reduce using rule 4 (expression -> STRING .)
+    MINUS           reduce using rule 4 (expression -> STRING .)
+    TIMES           reduce using rule 4 (expression -> STRING .)
+    DIVIDE          reduce using rule 4 (expression -> STRING .)
+    RPAREN          reduce using rule 4 (expression -> STRING .)
+    COMMENT         reduce using rule 4 (expression -> STRING .)
+    ID              reduce using rule 4 (expression -> STRING .)
+    NUMBER          reduce using rule 4 (expression -> STRING .)
+    STRING          reduce using rule 4 (expression -> STRING .)
+    LPAREN          reduce using rule 4 (expression -> STRING .)
+    DISP            reduce using rule 4 (expression -> STRING .)
+    MOD             reduce using rule 4 (expression -> STRING .)
+    IF              reduce using rule 4 (expression -> STRING .)
+    WHILE           reduce using rule 4 (expression -> STRING .)
+    FOR             reduce using rule 4 (expression -> STRING .)
+    END             reduce using rule 4 (expression -> STRING .)
+    ELSE            reduce using rule 4 (expression -> STRING .)
+    EQUALS          reduce using rule 4 (expression -> STRING .)
+    COMMA           reduce using rule 4 (expression -> STRING .)
+    COLON           reduce using rule 4 (expression -> STRING .)
 
 
 state 13
 
-    (11) if_statement -> IF . expression body END
-    (12) if_statement -> IF . expression body ELSE body END
+    (20) expression -> LPAREN . expression RPAREN
     (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
 
-    NUMBER          shift and go to state 10
-    ID              shift and go to state 20
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
 
-    expression                     shift and go to state 23
+    expression                     shift and go to state 35
 
 state 14
 
-    (5) body -> line body .
+    (32) expression -> DISP . LPAREN expression RPAREN
+    (33) expression -> DISP . LPAREN STRING RPAREN
 
-    $end            reduce using rule 5 (body -> line body .)
-    END             reduce using rule 5 (body -> line body .)
-    ELSE            reduce using rule 5 (body -> line body .)
+    LPAREN          shift and go to state 37
 
 
 state 15
 
-    (6) body -> empty .
+    (34) expression -> MOD . LPAREN expression COMMA expression RPAREN
 
-    $end            reduce using rule 6 (body -> empty .)
-    END             reduce using rule 6 (body -> empty .)
-    ELSE            reduce using rule 6 (body -> empty .)
+    LPAREN          shift and go to state 38
 
 
 state 16
 
-    (8) line -> statement SEMICOLON .
+    (14) if_statement -> IF . expression body END
+    (15) if_statement -> IF . expression body ELSE body END
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
 
-    ID              reduce using rule 8 (line -> statement SEMICOLON .)
-    RETURN          reduce using rule 8 (line -> statement SEMICOLON .)
-    NUMBER          reduce using rule 8 (line -> statement SEMICOLON .)
-    LPAREN          reduce using rule 8 (line -> statement SEMICOLON .)
-    DISP            reduce using rule 8 (line -> statement SEMICOLON .)
-    IF              reduce using rule 8 (line -> statement SEMICOLON .)
-    $end            reduce using rule 8 (line -> statement SEMICOLON .)
-    END             reduce using rule 8 (line -> statement SEMICOLON .)
-    ELSE            reduce using rule 8 (line -> statement SEMICOLON .)
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
 
+    expression                     shift and go to state 39
 
 state 17
 
-    (9) line -> expression SEMICOLON .
+    (16) loop_statement -> WHILE . expression body END
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
 
-    ID              reduce using rule 9 (line -> expression SEMICOLON .)
-    RETURN          reduce using rule 9 (line -> expression SEMICOLON .)
-    NUMBER          reduce using rule 9 (line -> expression SEMICOLON .)
-    LPAREN          reduce using rule 9 (line -> expression SEMICOLON .)
-    DISP            reduce using rule 9 (line -> expression SEMICOLON .)
-    IF              reduce using rule 9 (line -> expression SEMICOLON .)
-    $end            reduce using rule 9 (line -> expression SEMICOLON .)
-    END             reduce using rule 9 (line -> expression SEMICOLON .)
-    ELSE            reduce using rule 9 (line -> expression SEMICOLON .)
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
 
+    expression                     shift and go to state 40
 
 state 18
 
-    (13) statement -> ID EQUALS . expression
+    (17) loop_statement -> FOR . expression EQUALS expression COLON expression body END
+    (18) loop_statement -> FOR . expression EQUALS expression COLON expression COLON expression body END
     (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
 
-    NUMBER          shift and go to state 10
-    ID              shift and go to state 20
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
 
-    expression                     shift and go to state 24
+    expression                     shift and go to state 41
 
 state 19
 
-    (14) statement -> RETURN expression .
+    (6) body -> line body .
 
-    SEMICOLON       reduce using rule 14 (statement -> RETURN expression .)
+    $end            reduce using rule 6 (body -> line body .)
+    END             reduce using rule 6 (body -> line body .)
+    ELSE            reduce using rule 6 (body -> line body .)
 
 
 state 20
 
-    (4) expression -> ID .
+    (7) body -> empty .
 
-    SEMICOLON       reduce using rule 4 (expression -> ID .)
-    RPAREN          reduce using rule 4 (expression -> ID .)
-    ID              reduce using rule 4 (expression -> ID .)
-    RETURN          reduce using rule 4 (expression -> ID .)
-    NUMBER          reduce using rule 4 (expression -> ID .)
-    LPAREN          reduce using rule 4 (expression -> ID .)
-    DISP            reduce using rule 4 (expression -> ID .)
-    IF              reduce using rule 4 (expression -> ID .)
-    END             reduce using rule 4 (expression -> ID .)
-    ELSE            reduce using rule 4 (expression -> ID .)
+    $end            reduce using rule 7 (body -> empty .)
+    END             reduce using rule 7 (body -> empty .)
+    ELSE            reduce using rule 7 (body -> empty .)
 
 
 state 21
 
-    (16) expression -> LPAREN expression . RPAREN
+    (9) line -> statement SEMICOLON .
 
-    RPAREN          shift and go to state 25
+    COMMENT         reduce using rule 9 (line -> statement SEMICOLON .)
+    ID              reduce using rule 9 (line -> statement SEMICOLON .)
+    NUMBER          reduce using rule 9 (line -> statement SEMICOLON .)
+    STRING          reduce using rule 9 (line -> statement SEMICOLON .)
+    LPAREN          reduce using rule 9 (line -> statement SEMICOLON .)
+    DISP            reduce using rule 9 (line -> statement SEMICOLON .)
+    MOD             reduce using rule 9 (line -> statement SEMICOLON .)
+    IF              reduce using rule 9 (line -> statement SEMICOLON .)
+    WHILE           reduce using rule 9 (line -> statement SEMICOLON .)
+    FOR             reduce using rule 9 (line -> statement SEMICOLON .)
+    $end            reduce using rule 9 (line -> statement SEMICOLON .)
+    END             reduce using rule 9 (line -> statement SEMICOLON .)
+    ELSE            reduce using rule 9 (line -> statement SEMICOLON .)
 
 
 state 22
 
-    (20) expression -> DISP LPAREN . expression RPAREN
-    (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
+    (10) line -> expression SEMICOLON .
 
-    NUMBER          shift and go to state 10
-    ID              shift and go to state 20
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
+    COMMENT         reduce using rule 10 (line -> expression SEMICOLON .)
+    ID              reduce using rule 10 (line -> expression SEMICOLON .)
+    NUMBER          reduce using rule 10 (line -> expression SEMICOLON .)
+    STRING          reduce using rule 10 (line -> expression SEMICOLON .)
+    LPAREN          reduce using rule 10 (line -> expression SEMICOLON .)
+    DISP            reduce using rule 10 (line -> expression SEMICOLON .)
+    MOD             reduce using rule 10 (line -> expression SEMICOLON .)
+    IF              reduce using rule 10 (line -> expression SEMICOLON .)
+    WHILE           reduce using rule 10 (line -> expression SEMICOLON .)
+    FOR             reduce using rule 10 (line -> expression SEMICOLON .)
+    $end            reduce using rule 10 (line -> expression SEMICOLON .)
+    END             reduce using rule 10 (line -> expression SEMICOLON .)
+    ELSE            reduce using rule 10 (line -> expression SEMICOLON .)
 
-    expression                     shift and go to state 26
 
 state 23
 
-    (11) if_statement -> IF expression . body END
-    (12) if_statement -> IF expression . body ELSE body END
-    (5) body -> . line body
-    (6) body -> . empty
-    (8) line -> . statement SEMICOLON
-    (9) line -> . expression SEMICOLON
-    (10) line -> . if_statement
-    (7) empty -> .
-    (13) statement -> . ID EQUALS expression
-    (14) statement -> . RETURN expression
-    (15) statement -> . RETURN
+    (26) expression -> expression compare_operator . expression
     (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
-    (11) if_statement -> . IF expression body END
-    (12) if_statement -> . IF expression body ELSE body END
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
 
-    END             reduce using rule 7 (empty -> .)
-    ELSE            reduce using rule 7 (empty -> .)
-    ID              shift and go to state 8
-    RETURN          shift and go to state 9
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
-    IF              shift and go to state 13
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
 
-    expression                     shift and go to state 6
-    body                           shift and go to state 27
-    line                           shift and go to state 4
-    empty                          shift and go to state 15
-    statement                      shift and go to state 5
-    if_statement                   shift and go to state 7
+    expression                     shift and go to state 42
 
 state 24
 
-    (13) statement -> ID EQUALS expression .
+    (31) expression -> expression math_operator . expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
 
-    SEMICOLON       reduce using rule 13 (statement -> ID EQUALS expression .)
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
 
+    expression                     shift and go to state 43
 
 state 25
 
-    (16) expression -> LPAREN expression RPAREN .
+    (21) compare_operator -> COMPARISON .
 
-    SEMICOLON       reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    ID              reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    RETURN          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    NUMBER          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    LPAREN          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    DISP            reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    IF              reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    END             reduce using rule 16 (expression -> LPAREN expression RPAREN .)
-    ELSE            reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    NUMBER          reduce using rule 21 (compare_operator -> COMPARISON .)
+    STRING          reduce using rule 21 (compare_operator -> COMPARISON .)
+    ID              reduce using rule 21 (compare_operator -> COMPARISON .)
+    LPAREN          reduce using rule 21 (compare_operator -> COMPARISON .)
+    DISP            reduce using rule 21 (compare_operator -> COMPARISON .)
+    MOD             reduce using rule 21 (compare_operator -> COMPARISON .)
 
 
 state 26
 
-    (20) expression -> DISP LPAREN expression . RPAREN
+    (22) compare_operator -> GREATER .
 
-    RPAREN          shift and go to state 28
+    NUMBER          reduce using rule 22 (compare_operator -> GREATER .)
+    STRING          reduce using rule 22 (compare_operator -> GREATER .)
+    ID              reduce using rule 22 (compare_operator -> GREATER .)
+    LPAREN          reduce using rule 22 (compare_operator -> GREATER .)
+    DISP            reduce using rule 22 (compare_operator -> GREATER .)
+    MOD             reduce using rule 22 (compare_operator -> GREATER .)
 
 
 state 27
 
-    (11) if_statement -> IF expression body . END
-    (12) if_statement -> IF expression body . ELSE body END
+    (23) compare_operator -> LESS .
 
-    END             shift and go to state 29
-    ELSE            shift and go to state 30
+    NUMBER          reduce using rule 23 (compare_operator -> LESS .)
+    STRING          reduce using rule 23 (compare_operator -> LESS .)
+    ID              reduce using rule 23 (compare_operator -> LESS .)
+    LPAREN          reduce using rule 23 (compare_operator -> LESS .)
+    DISP            reduce using rule 23 (compare_operator -> LESS .)
+    MOD             reduce using rule 23 (compare_operator -> LESS .)
 
 
 state 28
 
-    (20) expression -> DISP LPAREN expression RPAREN .
+    (24) compare_operator -> LESSEQUAL .
 
-    SEMICOLON       reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    ID              reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    RETURN          reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    NUMBER          reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    LPAREN          reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    DISP            reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    IF              reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    END             reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
-    ELSE            reduce using rule 20 (expression -> DISP LPAREN expression RPAREN .)
+    NUMBER          reduce using rule 24 (compare_operator -> LESSEQUAL .)
+    STRING          reduce using rule 24 (compare_operator -> LESSEQUAL .)
+    ID              reduce using rule 24 (compare_operator -> LESSEQUAL .)
+    LPAREN          reduce using rule 24 (compare_operator -> LESSEQUAL .)
+    DISP            reduce using rule 24 (compare_operator -> LESSEQUAL .)
+    MOD             reduce using rule 24 (compare_operator -> LESSEQUAL .)
 
 
 state 29
 
-    (11) if_statement -> IF expression body END .
+    (25) compare_operator -> GREATEREQUAL .
 
-    ID              reduce using rule 11 (if_statement -> IF expression body END .)
-    RETURN          reduce using rule 11 (if_statement -> IF expression body END .)
-    NUMBER          reduce using rule 11 (if_statement -> IF expression body END .)
-    LPAREN          reduce using rule 11 (if_statement -> IF expression body END .)
-    DISP            reduce using rule 11 (if_statement -> IF expression body END .)
-    IF              reduce using rule 11 (if_statement -> IF expression body END .)
-    $end            reduce using rule 11 (if_statement -> IF expression body END .)
-    END             reduce using rule 11 (if_statement -> IF expression body END .)
-    ELSE            reduce using rule 11 (if_statement -> IF expression body END .)
+    NUMBER          reduce using rule 25 (compare_operator -> GREATEREQUAL .)
+    STRING          reduce using rule 25 (compare_operator -> GREATEREQUAL .)
+    ID              reduce using rule 25 (compare_operator -> GREATEREQUAL .)
+    LPAREN          reduce using rule 25 (compare_operator -> GREATEREQUAL .)
+    DISP            reduce using rule 25 (compare_operator -> GREATEREQUAL .)
+    MOD             reduce using rule 25 (compare_operator -> GREATEREQUAL .)
 
 
 state 30
 
-    (12) if_statement -> IF expression body ELSE . body END
-    (5) body -> . line body
-    (6) body -> . empty
-    (8) line -> . statement SEMICOLON
-    (9) line -> . expression SEMICOLON
-    (10) line -> . if_statement
-    (7) empty -> .
-    (13) statement -> . ID EQUALS expression
-    (14) statement -> . RETURN expression
-    (15) statement -> . RETURN
-    (3) expression -> . NUMBER
-    (4) expression -> . ID
-    (16) expression -> . LPAREN expression RPAREN
-    (20) expression -> . DISP LPAREN expression RPAREN
-    (11) if_statement -> . IF expression body END
-    (12) if_statement -> . IF expression body ELSE body END
+    (27) math_operator -> PLUS .
 
-    END             reduce using rule 7 (empty -> .)
-    ID              shift and go to state 8
-    RETURN          shift and go to state 9
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 11
-    DISP            shift and go to state 12
-    IF              shift and go to state 13
+    NUMBER          reduce using rule 27 (math_operator -> PLUS .)
+    STRING          reduce using rule 27 (math_operator -> PLUS .)
+    ID              reduce using rule 27 (math_operator -> PLUS .)
+    LPAREN          reduce using rule 27 (math_operator -> PLUS .)
+    DISP            reduce using rule 27 (math_operator -> PLUS .)
+    MOD             reduce using rule 27 (math_operator -> PLUS .)
 
-    expression                     shift and go to state 6
-    body                           shift and go to state 31
-    line                           shift and go to state 4
-    empty                          shift and go to state 15
-    statement                      shift and go to state 5
-    if_statement                   shift and go to state 7
 
 state 31
 
-    (12) if_statement -> IF expression body ELSE body . END
+    (28) math_operator -> MINUS .
 
-    END             shift and go to state 32
+    NUMBER          reduce using rule 28 (math_operator -> MINUS .)
+    STRING          reduce using rule 28 (math_operator -> MINUS .)
+    ID              reduce using rule 28 (math_operator -> MINUS .)
+    LPAREN          reduce using rule 28 (math_operator -> MINUS .)
+    DISP            reduce using rule 28 (math_operator -> MINUS .)
+    MOD             reduce using rule 28 (math_operator -> MINUS .)
 
 
 state 32
 
-    (12) if_statement -> IF expression body ELSE body END .
+    (29) math_operator -> TIMES .
 
-    ID              reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    RETURN          reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    NUMBER          reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    LPAREN          reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    DISP            reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    IF              reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    $end            reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    END             reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
-    ELSE            reduce using rule 12 (if_statement -> IF expression body ELSE body END .)
+    NUMBER          reduce using rule 29 (math_operator -> TIMES .)
+    STRING          reduce using rule 29 (math_operator -> TIMES .)
+    ID              reduce using rule 29 (math_operator -> TIMES .)
+    LPAREN          reduce using rule 29 (math_operator -> TIMES .)
+    DISP            reduce using rule 29 (math_operator -> TIMES .)
+    MOD             reduce using rule 29 (math_operator -> TIMES .)
+
+
+state 33
+
+    (30) math_operator -> DIVIDE .
+
+    NUMBER          reduce using rule 30 (math_operator -> DIVIDE .)
+    STRING          reduce using rule 30 (math_operator -> DIVIDE .)
+    ID              reduce using rule 30 (math_operator -> DIVIDE .)
+    LPAREN          reduce using rule 30 (math_operator -> DIVIDE .)
+    DISP            reduce using rule 30 (math_operator -> DIVIDE .)
+    MOD             reduce using rule 30 (math_operator -> DIVIDE .)
+
+
+state 34
+
+    (19) statement -> ID EQUALS . expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 44
+
+state 35
+
+    (20) expression -> LPAREN expression . RPAREN
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    RPAREN          shift and go to state 45
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 36
+
+    (5) expression -> ID .
+
+    RPAREN          reduce using rule 5 (expression -> ID .)
+    COMPARISON      reduce using rule 5 (expression -> ID .)
+    GREATER         reduce using rule 5 (expression -> ID .)
+    LESS            reduce using rule 5 (expression -> ID .)
+    LESSEQUAL       reduce using rule 5 (expression -> ID .)
+    GREATEREQUAL    reduce using rule 5 (expression -> ID .)
+    PLUS            reduce using rule 5 (expression -> ID .)
+    MINUS           reduce using rule 5 (expression -> ID .)
+    TIMES           reduce using rule 5 (expression -> ID .)
+    DIVIDE          reduce using rule 5 (expression -> ID .)
+    COMMENT         reduce using rule 5 (expression -> ID .)
+    ID              reduce using rule 5 (expression -> ID .)
+    NUMBER          reduce using rule 5 (expression -> ID .)
+    STRING          reduce using rule 5 (expression -> ID .)
+    LPAREN          reduce using rule 5 (expression -> ID .)
+    DISP            reduce using rule 5 (expression -> ID .)
+    MOD             reduce using rule 5 (expression -> ID .)
+    IF              reduce using rule 5 (expression -> ID .)
+    WHILE           reduce using rule 5 (expression -> ID .)
+    FOR             reduce using rule 5 (expression -> ID .)
+    END             reduce using rule 5 (expression -> ID .)
+    ELSE            reduce using rule 5 (expression -> ID .)
+    EQUALS          reduce using rule 5 (expression -> ID .)
+    SEMICOLON       reduce using rule 5 (expression -> ID .)
+    COMMA           reduce using rule 5 (expression -> ID .)
+    COLON           reduce using rule 5 (expression -> ID .)
+
+
+state 37
+
+    (32) expression -> DISP LPAREN . expression RPAREN
+    (33) expression -> DISP LPAREN . STRING RPAREN
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    STRING          shift and go to state 47
+    NUMBER          shift and go to state 11
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 46
+
+state 38
+
+    (34) expression -> MOD LPAREN . expression COMMA expression RPAREN
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 48
+
+state 39
+
+    (14) if_statement -> IF expression . body END
+    (15) if_statement -> IF expression . body ELSE body END
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (6) body -> . line body
+    (7) body -> . empty
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (8) empty -> .
+    (19) statement -> . ID EQUALS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
+
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+    COMMENT         shift and go to state 9
+    END             reduce using rule 8 (empty -> .)
+    ELSE            reduce using rule 8 (empty -> .)
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
+
+    expression                     shift and go to state 6
+    body                           shift and go to state 49
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+    line                           shift and go to state 4
+    empty                          shift and go to state 20
+    statement                      shift and go to state 5
+    if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
+
+state 40
+
+    (16) loop_statement -> WHILE expression . body END
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (6) body -> . line body
+    (7) body -> . empty
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (8) empty -> .
+    (19) statement -> . ID EQUALS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
+
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+    COMMENT         shift and go to state 9
+    END             reduce using rule 8 (empty -> .)
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
+
+    expression                     shift and go to state 6
+    body                           shift and go to state 50
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+    line                           shift and go to state 4
+    empty                          shift and go to state 20
+    statement                      shift and go to state 5
+    if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
+
+state 41
+
+    (17) loop_statement -> FOR expression . EQUALS expression COLON expression body END
+    (18) loop_statement -> FOR expression . EQUALS expression COLON expression COLON expression body END
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    EQUALS          shift and go to state 51
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 42
+
+    (26) expression -> expression compare_operator expression .
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+  ! shift/reduce conflict for COMPARISON resolved as shift
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESS resolved as shift
+  ! shift/reduce conflict for LESSEQUAL resolved as shift
+  ! shift/reduce conflict for GREATEREQUAL resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMICOLON       reduce using rule 26 (expression -> expression compare_operator expression .)
+    RPAREN          reduce using rule 26 (expression -> expression compare_operator expression .)
+    COMMENT         reduce using rule 26 (expression -> expression compare_operator expression .)
+    ID              reduce using rule 26 (expression -> expression compare_operator expression .)
+    NUMBER          reduce using rule 26 (expression -> expression compare_operator expression .)
+    STRING          reduce using rule 26 (expression -> expression compare_operator expression .)
+    LPAREN          reduce using rule 26 (expression -> expression compare_operator expression .)
+    DISP            reduce using rule 26 (expression -> expression compare_operator expression .)
+    MOD             reduce using rule 26 (expression -> expression compare_operator expression .)
+    IF              reduce using rule 26 (expression -> expression compare_operator expression .)
+    WHILE           reduce using rule 26 (expression -> expression compare_operator expression .)
+    FOR             reduce using rule 26 (expression -> expression compare_operator expression .)
+    END             reduce using rule 26 (expression -> expression compare_operator expression .)
+    ELSE            reduce using rule 26 (expression -> expression compare_operator expression .)
+    EQUALS          reduce using rule 26 (expression -> expression compare_operator expression .)
+    COMMA           reduce using rule 26 (expression -> expression compare_operator expression .)
+    COLON           reduce using rule 26 (expression -> expression compare_operator expression .)
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+  ! COMPARISON      [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! GREATER         [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! LESS            [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! LESSEQUAL       [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! GREATEREQUAL    [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! PLUS            [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! MINUS           [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! TIMES           [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! DIVIDE          [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 43
+
+    (31) expression -> expression math_operator expression .
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+  ! shift/reduce conflict for COMPARISON resolved as shift
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESS resolved as shift
+  ! shift/reduce conflict for LESSEQUAL resolved as shift
+  ! shift/reduce conflict for GREATEREQUAL resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMICOLON       reduce using rule 31 (expression -> expression math_operator expression .)
+    RPAREN          reduce using rule 31 (expression -> expression math_operator expression .)
+    COMMENT         reduce using rule 31 (expression -> expression math_operator expression .)
+    ID              reduce using rule 31 (expression -> expression math_operator expression .)
+    NUMBER          reduce using rule 31 (expression -> expression math_operator expression .)
+    STRING          reduce using rule 31 (expression -> expression math_operator expression .)
+    LPAREN          reduce using rule 31 (expression -> expression math_operator expression .)
+    DISP            reduce using rule 31 (expression -> expression math_operator expression .)
+    MOD             reduce using rule 31 (expression -> expression math_operator expression .)
+    IF              reduce using rule 31 (expression -> expression math_operator expression .)
+    WHILE           reduce using rule 31 (expression -> expression math_operator expression .)
+    FOR             reduce using rule 31 (expression -> expression math_operator expression .)
+    END             reduce using rule 31 (expression -> expression math_operator expression .)
+    ELSE            reduce using rule 31 (expression -> expression math_operator expression .)
+    EQUALS          reduce using rule 31 (expression -> expression math_operator expression .)
+    COMMA           reduce using rule 31 (expression -> expression math_operator expression .)
+    COLON           reduce using rule 31 (expression -> expression math_operator expression .)
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+  ! COMPARISON      [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! GREATER         [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! LESS            [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! LESSEQUAL       [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! GREATEREQUAL    [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! PLUS            [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! MINUS           [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! TIMES           [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! DIVIDE          [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+
+    math_operator                  shift and go to state 24
+    compare_operator               shift and go to state 23
+
+state 44
+
+    (19) statement -> ID EQUALS expression .
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    SEMICOLON       reduce using rule 19 (statement -> ID EQUALS expression .)
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 45
+
+    (20) expression -> LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    COMPARISON      reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    GREATER         reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    LESS            reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    LESSEQUAL       reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    GREATEREQUAL    reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    COMMENT         reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    ID              reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    NUMBER          reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    STRING          reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    DISP            reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    IF              reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    WHILE           reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    FOR             reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    END             reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    ELSE            reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+    COLON           reduce using rule 20 (expression -> LPAREN expression RPAREN .)
+
+
+state 46
+
+    (32) expression -> DISP LPAREN expression . RPAREN
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    RPAREN          shift and go to state 52
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 47
+
+    (33) expression -> DISP LPAREN STRING . RPAREN
+    (4) expression -> STRING .
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+    RPAREN          shift and go to state 53
+    COMPARISON      reduce using rule 4 (expression -> STRING .)
+    GREATER         reduce using rule 4 (expression -> STRING .)
+    LESS            reduce using rule 4 (expression -> STRING .)
+    LESSEQUAL       reduce using rule 4 (expression -> STRING .)
+    GREATEREQUAL    reduce using rule 4 (expression -> STRING .)
+    PLUS            reduce using rule 4 (expression -> STRING .)
+    MINUS           reduce using rule 4 (expression -> STRING .)
+    TIMES           reduce using rule 4 (expression -> STRING .)
+    DIVIDE          reduce using rule 4 (expression -> STRING .)
+
+  ! RPAREN          [ reduce using rule 4 (expression -> STRING .) ]
+
+
+state 48
+
+    (34) expression -> MOD LPAREN expression . COMMA expression RPAREN
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    COMMA           shift and go to state 54
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 49
+
+    (14) if_statement -> IF expression body . END
+    (15) if_statement -> IF expression body . ELSE body END
+
+    END             shift and go to state 55
+    ELSE            shift and go to state 56
+
+
+state 50
+
+    (16) loop_statement -> WHILE expression body . END
+
+    END             shift and go to state 57
+
+
+state 51
+
+    (17) loop_statement -> FOR expression EQUALS . expression COLON expression body END
+    (18) loop_statement -> FOR expression EQUALS . expression COLON expression COLON expression body END
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 58
+
+state 52
+
+    (32) expression -> DISP LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    COMPARISON      reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    GREATER         reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    LESS            reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    LESSEQUAL       reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    GREATEREQUAL    reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    PLUS            reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    MINUS           reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    TIMES           reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    COMMENT         reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    ID              reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    NUMBER          reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    STRING          reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    DISP            reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    MOD             reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    IF              reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    WHILE           reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    FOR             reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    END             reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    ELSE            reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    COMMA           reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+    COLON           reduce using rule 32 (expression -> DISP LPAREN expression RPAREN .)
+
+
+state 53
+
+    (33) expression -> DISP LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    COMPARISON      reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    GREATER         reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    LESS            reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    LESSEQUAL       reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    GREATEREQUAL    reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    PLUS            reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    MINUS           reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    TIMES           reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    DIVIDE          reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    RPAREN          reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    COMMENT         reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    ID              reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    NUMBER          reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    STRING          reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    LPAREN          reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    DISP            reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    MOD             reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    IF              reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    WHILE           reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    FOR             reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    END             reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    ELSE            reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    EQUALS          reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    COMMA           reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+    COLON           reduce using rule 33 (expression -> DISP LPAREN STRING RPAREN .)
+
+
+state 54
+
+    (34) expression -> MOD LPAREN expression COMMA . expression RPAREN
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 59
+
+state 55
+
+    (14) if_statement -> IF expression body END .
+
+    COMMENT         reduce using rule 14 (if_statement -> IF expression body END .)
+    ID              reduce using rule 14 (if_statement -> IF expression body END .)
+    NUMBER          reduce using rule 14 (if_statement -> IF expression body END .)
+    STRING          reduce using rule 14 (if_statement -> IF expression body END .)
+    LPAREN          reduce using rule 14 (if_statement -> IF expression body END .)
+    DISP            reduce using rule 14 (if_statement -> IF expression body END .)
+    MOD             reduce using rule 14 (if_statement -> IF expression body END .)
+    IF              reduce using rule 14 (if_statement -> IF expression body END .)
+    WHILE           reduce using rule 14 (if_statement -> IF expression body END .)
+    FOR             reduce using rule 14 (if_statement -> IF expression body END .)
+    $end            reduce using rule 14 (if_statement -> IF expression body END .)
+    END             reduce using rule 14 (if_statement -> IF expression body END .)
+    ELSE            reduce using rule 14 (if_statement -> IF expression body END .)
+
+
+state 56
+
+    (15) if_statement -> IF expression body ELSE . body END
+    (6) body -> . line body
+    (7) body -> . empty
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (8) empty -> .
+    (19) statement -> . ID EQUALS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
+
+    COMMENT         shift and go to state 9
+    END             reduce using rule 8 (empty -> .)
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
+
+    expression                     shift and go to state 6
+    body                           shift and go to state 60
+    line                           shift and go to state 4
+    empty                          shift and go to state 20
+    statement                      shift and go to state 5
+    if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
+
+state 57
+
+    (16) loop_statement -> WHILE expression body END .
+
+    COMMENT         reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    ID              reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    NUMBER          reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    STRING          reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    LPAREN          reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    DISP            reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    MOD             reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    IF              reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    WHILE           reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    FOR             reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    $end            reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    END             reduce using rule 16 (loop_statement -> WHILE expression body END .)
+    ELSE            reduce using rule 16 (loop_statement -> WHILE expression body END .)
+
+
+state 58
+
+    (17) loop_statement -> FOR expression EQUALS expression . COLON expression body END
+    (18) loop_statement -> FOR expression EQUALS expression . COLON expression COLON expression body END
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    COLON           shift and go to state 61
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 59
+
+    (34) expression -> MOD LPAREN expression COMMA expression . RPAREN
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+
+    RPAREN          shift and go to state 62
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+
+state 60
+
+    (15) if_statement -> IF expression body ELSE body . END
+
+    END             shift and go to state 63
+
+
+state 61
+
+    (17) loop_statement -> FOR expression EQUALS expression COLON . expression body END
+    (18) loop_statement -> FOR expression EQUALS expression COLON . expression COLON expression body END
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 64
+
+state 62
+
+    (34) expression -> MOD LPAREN expression COMMA expression RPAREN .
+
+    SEMICOLON       reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    COMPARISON      reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    GREATER         reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    LESS            reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    LESSEQUAL       reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    GREATEREQUAL    reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    PLUS            reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    MINUS           reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    TIMES           reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    DIVIDE          reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    RPAREN          reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    COMMENT         reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    ID              reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    NUMBER          reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    STRING          reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    LPAREN          reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    DISP            reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    MOD             reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    IF              reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    WHILE           reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    FOR             reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    END             reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    ELSE            reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    EQUALS          reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    COMMA           reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+    COLON           reduce using rule 34 (expression -> MOD LPAREN expression COMMA expression RPAREN .)
+
+
+state 63
+
+    (15) if_statement -> IF expression body ELSE body END .
+
+    COMMENT         reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    ID              reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    NUMBER          reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    STRING          reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    LPAREN          reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    DISP            reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    MOD             reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    IF              reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    WHILE           reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    FOR             reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    $end            reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    END             reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+    ELSE            reduce using rule 15 (if_statement -> IF expression body ELSE body END .)
+
+
+state 64
+
+    (17) loop_statement -> FOR expression EQUALS expression COLON expression . body END
+    (18) loop_statement -> FOR expression EQUALS expression COLON expression . COLON expression body END
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (6) body -> . line body
+    (7) body -> . empty
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (8) empty -> .
+    (19) statement -> . ID EQUALS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
+
+    COLON           shift and go to state 65
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+    COMMENT         shift and go to state 9
+    END             reduce using rule 8 (empty -> .)
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
+
+    expression                     shift and go to state 6
+    body                           shift and go to state 66
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+    line                           shift and go to state 4
+    empty                          shift and go to state 20
+    statement                      shift and go to state 5
+    if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
+
+state 65
+
+    (18) loop_statement -> FOR expression EQUALS expression COLON expression COLON . expression body END
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    ID              shift and go to state 36
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+
+    expression                     shift and go to state 67
+
+state 66
+
+    (17) loop_statement -> FOR expression EQUALS expression COLON expression body . END
+
+    END             shift and go to state 68
+
+
+state 67
+
+    (18) loop_statement -> FOR expression EQUALS expression COLON expression COLON expression . body END
+    (26) expression -> expression . compare_operator expression
+    (31) expression -> expression . math_operator expression
+    (6) body -> . line body
+    (7) body -> . empty
+    (21) compare_operator -> . COMPARISON
+    (22) compare_operator -> . GREATER
+    (23) compare_operator -> . LESS
+    (24) compare_operator -> . LESSEQUAL
+    (25) compare_operator -> . GREATEREQUAL
+    (27) math_operator -> . PLUS
+    (28) math_operator -> . MINUS
+    (29) math_operator -> . TIMES
+    (30) math_operator -> . DIVIDE
+    (9) line -> . statement SEMICOLON
+    (10) line -> . expression SEMICOLON
+    (11) line -> . if_statement
+    (12) line -> . loop_statement
+    (13) line -> . COMMENT
+    (8) empty -> .
+    (19) statement -> . ID EQUALS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . STRING
+    (5) expression -> . ID
+    (20) expression -> . LPAREN expression RPAREN
+    (26) expression -> . expression compare_operator expression
+    (31) expression -> . expression math_operator expression
+    (32) expression -> . DISP LPAREN expression RPAREN
+    (33) expression -> . DISP LPAREN STRING RPAREN
+    (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
+    (14) if_statement -> . IF expression body END
+    (15) if_statement -> . IF expression body ELSE body END
+    (16) loop_statement -> . WHILE expression body END
+    (17) loop_statement -> . FOR expression EQUALS expression COLON expression body END
+    (18) loop_statement -> . FOR expression EQUALS expression COLON expression COLON expression body END
+
+    COMPARISON      shift and go to state 25
+    GREATER         shift and go to state 26
+    LESS            shift and go to state 27
+    LESSEQUAL       shift and go to state 28
+    GREATEREQUAL    shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+    COMMENT         shift and go to state 9
+    END             reduce using rule 8 (empty -> .)
+    ID              shift and go to state 10
+    NUMBER          shift and go to state 11
+    STRING          shift and go to state 12
+    LPAREN          shift and go to state 13
+    DISP            shift and go to state 14
+    MOD             shift and go to state 15
+    IF              shift and go to state 16
+    WHILE           shift and go to state 17
+    FOR             shift and go to state 18
+
+    expression                     shift and go to state 6
+    body                           shift and go to state 69
+    compare_operator               shift and go to state 23
+    math_operator                  shift and go to state 24
+    line                           shift and go to state 4
+    empty                          shift and go to state 20
+    statement                      shift and go to state 5
+    if_statement                   shift and go to state 7
+    loop_statement                 shift and go to state 8
+
+state 68
+
+    (17) loop_statement -> FOR expression EQUALS expression COLON expression body END .
+
+    COMMENT         reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    ID              reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    NUMBER          reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    STRING          reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    LPAREN          reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    DISP            reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    MOD             reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    IF              reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    WHILE           reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    FOR             reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    $end            reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    END             reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+    ELSE            reduce using rule 17 (loop_statement -> FOR expression EQUALS expression COLON expression body END .)
+
+
+state 69
+
+    (18) loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body . END
+
+    END             shift and go to state 70
+
+
+state 70
+
+    (18) loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .
+
+    COMMENT         reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    ID              reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    NUMBER          reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    STRING          reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    LPAREN          reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    DISP            reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    MOD             reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    IF              reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    WHILE           reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    FOR             reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    $end            reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    END             reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
+    ELSE            reduce using rule 18 (loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
+WARNING: shift/reduce conflict for COMPARISON in state 42 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 42 resolved as shift
+WARNING: shift/reduce conflict for LESS in state 42 resolved as shift
+WARNING: shift/reduce conflict for LESSEQUAL in state 42 resolved as shift
+WARNING: shift/reduce conflict for GREATEREQUAL in state 42 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 42 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 42 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 42 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 42 resolved as shift
+WARNING: shift/reduce conflict for COMPARISON in state 43 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 43 resolved as shift
+WARNING: shift/reduce conflict for LESS in state 43 resolved as shift
+WARNING: shift/reduce conflict for LESSEQUAL in state 43 resolved as shift
+WARNING: shift/reduce conflict for GREATEREQUAL in state 43 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 43 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 43 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 43 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 43 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 47 resolved as shift
 WARNING: reduce/reduce conflict in state 3 resolved using rule (program -> empty)
 WARNING: rejected rule (body -> empty) in state 3

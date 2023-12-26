@@ -1,16 +1,18 @@
 
 c = 24;
 a = 10;
+x = "String";
+disp(x);
+disp("HELLO");
 a = a +1;
 c = c + 2;
-
 a = c / (1 + 1);
 
 isPrime = 1;
 if mod(a, 2) == 0
     isPrime = 0;
 else
-    for i = 3:2:sqrt(a)
+    for i = 3:2:a
         if mod(a, i) == 0
             isPrime = 0;
             break;
@@ -18,12 +20,11 @@ else
     end
 end
 
-% Display result
 if isPrime
-    fprintf('%d\n', a);
+    disp(a);
 end
 if c > 14
-    fprintf('c = %d\n', c);
+    disp(c);
 else
-    fprintf('asdf\n');
+    disp(a);
 end
