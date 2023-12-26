@@ -2,6 +2,7 @@
  using namespace std;
 int main() {
 // Test comment
+// test 2
 auto test = "Test string";
 cout<<test<<endl;
 cout<<"Pętla for:"<<endl;

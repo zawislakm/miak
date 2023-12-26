@@ -23,17 +23,17 @@ Rule 17    loop_statement -> FOR expression EQUALS expression COLON expression b
 Rule 18    loop_statement -> FOR expression EQUALS expression COLON expression COLON expression body END
 Rule 19    statement -> ID EQUALS expression
 Rule 20    expression -> LPAREN expression RPAREN
-Rule 21    compare_operator -> COMPARISON
-Rule 22    compare_operator -> GREATER
-Rule 23    compare_operator -> LESS
-Rule 24    compare_operator -> LESSEQUAL
-Rule 25    compare_operator -> GREATEREQUAL
-Rule 26    expression -> expression compare_operator expression
-Rule 27    math_operator -> PLUS
-Rule 28    math_operator -> MINUS
-Rule 29    math_operator -> TIMES
-Rule 30    math_operator -> DIVIDE
-Rule 31    expression -> expression math_operator expression
+Rule 21    compare -> COMPARISON
+Rule 22    compare -> GREATER
+Rule 23    compare -> LESS
+Rule 24    compare -> LESSEQUAL
+Rule 25    compare -> GREATEREQUAL
+Rule 26    expression -> expression compare expression
+Rule 27    math -> PLUS
+Rule 28    math -> MINUS
+Rule 29    math -> TIMES
+Rule 30    math -> DIVIDE
+Rule 31    expression -> expression math expression
 Rule 32    expression -> DISP LPAREN expression RPAREN
 Rule 33    expression -> DISP LPAREN STRING RPAREN
 Rule 34    expression -> MOD LPAREN expression COMMA expression RPAREN
@@ -71,13 +71,13 @@ error                :
 Nonterminals, with rules where they appear
 
 body                 : 1 6 14 15 15 16 17 18
-compare_operator     : 26
+compare              : 26
 empty                : 2 7
 expression           : 10 14 15 16 17 17 17 18 18 18 18 19 20 26 26 31 31 32 34 34
 if_statement         : 11
 line                 : 6
 loop_statement       : 12
-math_operator        : 31
+math                 : 31
 program              : 0
 statement            : 9
 
@@ -101,8 +101,8 @@ state 0
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -173,8 +173,8 @@ state 4
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -216,17 +216,17 @@ state 5
 state 6
 
     (10) line -> expression . SEMICOLON
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     SEMICOLON       shift and go to state 22
     COMPARISON      shift and go to state 25
@@ -239,8 +239,8 @@ state 6
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 7
 
@@ -388,8 +388,8 @@ state 13
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -426,8 +426,8 @@ state 16
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -448,8 +448,8 @@ state 17
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -471,8 +471,8 @@ state 18
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -544,13 +544,13 @@ state 22
 
 state 23
 
-    (26) expression -> expression compare_operator . expression
+    (26) expression -> expression compare . expression
     (3) expression -> . NUMBER
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -566,13 +566,13 @@ state 23
 
 state 24
 
-    (31) expression -> expression math_operator . expression
+    (31) expression -> expression math . expression
     (3) expression -> . NUMBER
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -588,110 +588,110 @@ state 24
 
 state 25
 
-    (21) compare_operator -> COMPARISON .
+    (21) compare -> COMPARISON .
 
-    NUMBER          reduce using rule 21 (compare_operator -> COMPARISON .)
-    STRING          reduce using rule 21 (compare_operator -> COMPARISON .)
-    ID              reduce using rule 21 (compare_operator -> COMPARISON .)
-    LPAREN          reduce using rule 21 (compare_operator -> COMPARISON .)
-    DISP            reduce using rule 21 (compare_operator -> COMPARISON .)
-    MOD             reduce using rule 21 (compare_operator -> COMPARISON .)
+    NUMBER          reduce using rule 21 (compare -> COMPARISON .)
+    STRING          reduce using rule 21 (compare -> COMPARISON .)
+    ID              reduce using rule 21 (compare -> COMPARISON .)
+    LPAREN          reduce using rule 21 (compare -> COMPARISON .)
+    DISP            reduce using rule 21 (compare -> COMPARISON .)
+    MOD             reduce using rule 21 (compare -> COMPARISON .)
 
 
 state 26
 
-    (22) compare_operator -> GREATER .
+    (22) compare -> GREATER .
 
-    NUMBER          reduce using rule 22 (compare_operator -> GREATER .)
-    STRING          reduce using rule 22 (compare_operator -> GREATER .)
-    ID              reduce using rule 22 (compare_operator -> GREATER .)
-    LPAREN          reduce using rule 22 (compare_operator -> GREATER .)
-    DISP            reduce using rule 22 (compare_operator -> GREATER .)
-    MOD             reduce using rule 22 (compare_operator -> GREATER .)
+    NUMBER          reduce using rule 22 (compare -> GREATER .)
+    STRING          reduce using rule 22 (compare -> GREATER .)
+    ID              reduce using rule 22 (compare -> GREATER .)
+    LPAREN          reduce using rule 22 (compare -> GREATER .)
+    DISP            reduce using rule 22 (compare -> GREATER .)
+    MOD             reduce using rule 22 (compare -> GREATER .)
 
 
 state 27
 
-    (23) compare_operator -> LESS .
+    (23) compare -> LESS .
 
-    NUMBER          reduce using rule 23 (compare_operator -> LESS .)
-    STRING          reduce using rule 23 (compare_operator -> LESS .)
-    ID              reduce using rule 23 (compare_operator -> LESS .)
-    LPAREN          reduce using rule 23 (compare_operator -> LESS .)
-    DISP            reduce using rule 23 (compare_operator -> LESS .)
-    MOD             reduce using rule 23 (compare_operator -> LESS .)
+    NUMBER          reduce using rule 23 (compare -> LESS .)
+    STRING          reduce using rule 23 (compare -> LESS .)
+    ID              reduce using rule 23 (compare -> LESS .)
+    LPAREN          reduce using rule 23 (compare -> LESS .)
+    DISP            reduce using rule 23 (compare -> LESS .)
+    MOD             reduce using rule 23 (compare -> LESS .)
 
 
 state 28
 
-    (24) compare_operator -> LESSEQUAL .
+    (24) compare -> LESSEQUAL .
 
-    NUMBER          reduce using rule 24 (compare_operator -> LESSEQUAL .)
-    STRING          reduce using rule 24 (compare_operator -> LESSEQUAL .)
-    ID              reduce using rule 24 (compare_operator -> LESSEQUAL .)
-    LPAREN          reduce using rule 24 (compare_operator -> LESSEQUAL .)
-    DISP            reduce using rule 24 (compare_operator -> LESSEQUAL .)
-    MOD             reduce using rule 24 (compare_operator -> LESSEQUAL .)
+    NUMBER          reduce using rule 24 (compare -> LESSEQUAL .)
+    STRING          reduce using rule 24 (compare -> LESSEQUAL .)
+    ID              reduce using rule 24 (compare -> LESSEQUAL .)
+    LPAREN          reduce using rule 24 (compare -> LESSEQUAL .)
+    DISP            reduce using rule 24 (compare -> LESSEQUAL .)
+    MOD             reduce using rule 24 (compare -> LESSEQUAL .)
 
 
 state 29
 
-    (25) compare_operator -> GREATEREQUAL .
+    (25) compare -> GREATEREQUAL .
 
-    NUMBER          reduce using rule 25 (compare_operator -> GREATEREQUAL .)
-    STRING          reduce using rule 25 (compare_operator -> GREATEREQUAL .)
-    ID              reduce using rule 25 (compare_operator -> GREATEREQUAL .)
-    LPAREN          reduce using rule 25 (compare_operator -> GREATEREQUAL .)
-    DISP            reduce using rule 25 (compare_operator -> GREATEREQUAL .)
-    MOD             reduce using rule 25 (compare_operator -> GREATEREQUAL .)
+    NUMBER          reduce using rule 25 (compare -> GREATEREQUAL .)
+    STRING          reduce using rule 25 (compare -> GREATEREQUAL .)
+    ID              reduce using rule 25 (compare -> GREATEREQUAL .)
+    LPAREN          reduce using rule 25 (compare -> GREATEREQUAL .)
+    DISP            reduce using rule 25 (compare -> GREATEREQUAL .)
+    MOD             reduce using rule 25 (compare -> GREATEREQUAL .)
 
 
 state 30
 
-    (27) math_operator -> PLUS .
+    (27) math -> PLUS .
 
-    NUMBER          reduce using rule 27 (math_operator -> PLUS .)
-    STRING          reduce using rule 27 (math_operator -> PLUS .)
-    ID              reduce using rule 27 (math_operator -> PLUS .)
-    LPAREN          reduce using rule 27 (math_operator -> PLUS .)
-    DISP            reduce using rule 27 (math_operator -> PLUS .)
-    MOD             reduce using rule 27 (math_operator -> PLUS .)
+    NUMBER          reduce using rule 27 (math -> PLUS .)
+    STRING          reduce using rule 27 (math -> PLUS .)
+    ID              reduce using rule 27 (math -> PLUS .)
+    LPAREN          reduce using rule 27 (math -> PLUS .)
+    DISP            reduce using rule 27 (math -> PLUS .)
+    MOD             reduce using rule 27 (math -> PLUS .)
 
 
 state 31
 
-    (28) math_operator -> MINUS .
+    (28) math -> MINUS .
 
-    NUMBER          reduce using rule 28 (math_operator -> MINUS .)
-    STRING          reduce using rule 28 (math_operator -> MINUS .)
-    ID              reduce using rule 28 (math_operator -> MINUS .)
-    LPAREN          reduce using rule 28 (math_operator -> MINUS .)
-    DISP            reduce using rule 28 (math_operator -> MINUS .)
-    MOD             reduce using rule 28 (math_operator -> MINUS .)
+    NUMBER          reduce using rule 28 (math -> MINUS .)
+    STRING          reduce using rule 28 (math -> MINUS .)
+    ID              reduce using rule 28 (math -> MINUS .)
+    LPAREN          reduce using rule 28 (math -> MINUS .)
+    DISP            reduce using rule 28 (math -> MINUS .)
+    MOD             reduce using rule 28 (math -> MINUS .)
 
 
 state 32
 
-    (29) math_operator -> TIMES .
+    (29) math -> TIMES .
 
-    NUMBER          reduce using rule 29 (math_operator -> TIMES .)
-    STRING          reduce using rule 29 (math_operator -> TIMES .)
-    ID              reduce using rule 29 (math_operator -> TIMES .)
-    LPAREN          reduce using rule 29 (math_operator -> TIMES .)
-    DISP            reduce using rule 29 (math_operator -> TIMES .)
-    MOD             reduce using rule 29 (math_operator -> TIMES .)
+    NUMBER          reduce using rule 29 (math -> TIMES .)
+    STRING          reduce using rule 29 (math -> TIMES .)
+    ID              reduce using rule 29 (math -> TIMES .)
+    LPAREN          reduce using rule 29 (math -> TIMES .)
+    DISP            reduce using rule 29 (math -> TIMES .)
+    MOD             reduce using rule 29 (math -> TIMES .)
 
 
 state 33
 
-    (30) math_operator -> DIVIDE .
+    (30) math -> DIVIDE .
 
-    NUMBER          reduce using rule 30 (math_operator -> DIVIDE .)
-    STRING          reduce using rule 30 (math_operator -> DIVIDE .)
-    ID              reduce using rule 30 (math_operator -> DIVIDE .)
-    LPAREN          reduce using rule 30 (math_operator -> DIVIDE .)
-    DISP            reduce using rule 30 (math_operator -> DIVIDE .)
-    MOD             reduce using rule 30 (math_operator -> DIVIDE .)
+    NUMBER          reduce using rule 30 (math -> DIVIDE .)
+    STRING          reduce using rule 30 (math -> DIVIDE .)
+    ID              reduce using rule 30 (math -> DIVIDE .)
+    LPAREN          reduce using rule 30 (math -> DIVIDE .)
+    DISP            reduce using rule 30 (math -> DIVIDE .)
+    MOD             reduce using rule 30 (math -> DIVIDE .)
 
 
 state 34
@@ -701,8 +701,8 @@ state 34
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -719,17 +719,17 @@ state 34
 state 35
 
     (20) expression -> LPAREN expression . RPAREN
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     RPAREN          shift and go to state 45
     COMPARISON      shift and go to state 25
@@ -742,8 +742,8 @@ state 35
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 36
 
@@ -785,8 +785,8 @@ state 37
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -807,8 +807,8 @@ state 38
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -826,19 +826,19 @@ state 39
 
     (14) if_statement -> IF expression . body END
     (15) if_statement -> IF expression . body ELSE body END
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
     (6) body -> . line body
     (7) body -> . empty
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
     (9) line -> . statement SEMICOLON
     (10) line -> . expression SEMICOLON
     (11) line -> . if_statement
@@ -850,8 +850,8 @@ state 39
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -885,8 +885,8 @@ state 39
 
     expression                     shift and go to state 6
     body                           shift and go to state 49
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
     line                           shift and go to state 4
     empty                          shift and go to state 20
     statement                      shift and go to state 5
@@ -896,19 +896,19 @@ state 39
 state 40
 
     (16) loop_statement -> WHILE expression . body END
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
     (6) body -> . line body
     (7) body -> . empty
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
     (9) line -> . statement SEMICOLON
     (10) line -> . expression SEMICOLON
     (11) line -> . if_statement
@@ -920,8 +920,8 @@ state 40
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -954,8 +954,8 @@ state 40
 
     expression                     shift and go to state 6
     body                           shift and go to state 50
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
     line                           shift and go to state 4
     empty                          shift and go to state 20
     statement                      shift and go to state 5
@@ -966,17 +966,17 @@ state 41
 
     (17) loop_statement -> FOR expression . EQUALS expression COLON expression body END
     (18) loop_statement -> FOR expression . EQUALS expression COLON expression COLON expression body END
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     EQUALS          shift and go to state 51
     COMPARISON      shift and go to state 25
@@ -989,23 +989,23 @@ state 41
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 42
 
-    (26) expression -> expression compare_operator expression .
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression compare expression .
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
   ! shift/reduce conflict for COMPARISON resolved as shift
   ! shift/reduce conflict for GREATER resolved as shift
@@ -1016,23 +1016,23 @@ state 42
   ! shift/reduce conflict for MINUS resolved as shift
   ! shift/reduce conflict for TIMES resolved as shift
   ! shift/reduce conflict for DIVIDE resolved as shift
-    SEMICOLON       reduce using rule 26 (expression -> expression compare_operator expression .)
-    RPAREN          reduce using rule 26 (expression -> expression compare_operator expression .)
-    COMMENT         reduce using rule 26 (expression -> expression compare_operator expression .)
-    ID              reduce using rule 26 (expression -> expression compare_operator expression .)
-    NUMBER          reduce using rule 26 (expression -> expression compare_operator expression .)
-    STRING          reduce using rule 26 (expression -> expression compare_operator expression .)
-    LPAREN          reduce using rule 26 (expression -> expression compare_operator expression .)
-    DISP            reduce using rule 26 (expression -> expression compare_operator expression .)
-    MOD             reduce using rule 26 (expression -> expression compare_operator expression .)
-    IF              reduce using rule 26 (expression -> expression compare_operator expression .)
-    WHILE           reduce using rule 26 (expression -> expression compare_operator expression .)
-    FOR             reduce using rule 26 (expression -> expression compare_operator expression .)
-    END             reduce using rule 26 (expression -> expression compare_operator expression .)
-    ELSE            reduce using rule 26 (expression -> expression compare_operator expression .)
-    EQUALS          reduce using rule 26 (expression -> expression compare_operator expression .)
-    COMMA           reduce using rule 26 (expression -> expression compare_operator expression .)
-    COLON           reduce using rule 26 (expression -> expression compare_operator expression .)
+    SEMICOLON       reduce using rule 26 (expression -> expression compare expression .)
+    RPAREN          reduce using rule 26 (expression -> expression compare expression .)
+    COMMENT         reduce using rule 26 (expression -> expression compare expression .)
+    ID              reduce using rule 26 (expression -> expression compare expression .)
+    NUMBER          reduce using rule 26 (expression -> expression compare expression .)
+    STRING          reduce using rule 26 (expression -> expression compare expression .)
+    LPAREN          reduce using rule 26 (expression -> expression compare expression .)
+    DISP            reduce using rule 26 (expression -> expression compare expression .)
+    MOD             reduce using rule 26 (expression -> expression compare expression .)
+    IF              reduce using rule 26 (expression -> expression compare expression .)
+    WHILE           reduce using rule 26 (expression -> expression compare expression .)
+    FOR             reduce using rule 26 (expression -> expression compare expression .)
+    END             reduce using rule 26 (expression -> expression compare expression .)
+    ELSE            reduce using rule 26 (expression -> expression compare expression .)
+    EQUALS          reduce using rule 26 (expression -> expression compare expression .)
+    COMMA           reduce using rule 26 (expression -> expression compare expression .)
+    COLON           reduce using rule 26 (expression -> expression compare expression .)
     COMPARISON      shift and go to state 25
     GREATER         shift and go to state 26
     LESS            shift and go to state 27
@@ -1043,33 +1043,33 @@ state 42
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-  ! COMPARISON      [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! GREATER         [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! LESS            [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! LESSEQUAL       [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! GREATEREQUAL    [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! PLUS            [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! MINUS           [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! TIMES           [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
-  ! DIVIDE          [ reduce using rule 26 (expression -> expression compare_operator expression .) ]
+  ! COMPARISON      [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! GREATER         [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! LESS            [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! LESSEQUAL       [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! GREATEREQUAL    [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! PLUS            [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! MINUS           [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! TIMES           [ reduce using rule 26 (expression -> expression compare expression .) ]
+  ! DIVIDE          [ reduce using rule 26 (expression -> expression compare expression .) ]
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 43
 
-    (31) expression -> expression math_operator expression .
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (31) expression -> expression math expression .
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
   ! shift/reduce conflict for COMPARISON resolved as shift
   ! shift/reduce conflict for GREATER resolved as shift
@@ -1080,23 +1080,23 @@ state 43
   ! shift/reduce conflict for MINUS resolved as shift
   ! shift/reduce conflict for TIMES resolved as shift
   ! shift/reduce conflict for DIVIDE resolved as shift
-    SEMICOLON       reduce using rule 31 (expression -> expression math_operator expression .)
-    RPAREN          reduce using rule 31 (expression -> expression math_operator expression .)
-    COMMENT         reduce using rule 31 (expression -> expression math_operator expression .)
-    ID              reduce using rule 31 (expression -> expression math_operator expression .)
-    NUMBER          reduce using rule 31 (expression -> expression math_operator expression .)
-    STRING          reduce using rule 31 (expression -> expression math_operator expression .)
-    LPAREN          reduce using rule 31 (expression -> expression math_operator expression .)
-    DISP            reduce using rule 31 (expression -> expression math_operator expression .)
-    MOD             reduce using rule 31 (expression -> expression math_operator expression .)
-    IF              reduce using rule 31 (expression -> expression math_operator expression .)
-    WHILE           reduce using rule 31 (expression -> expression math_operator expression .)
-    FOR             reduce using rule 31 (expression -> expression math_operator expression .)
-    END             reduce using rule 31 (expression -> expression math_operator expression .)
-    ELSE            reduce using rule 31 (expression -> expression math_operator expression .)
-    EQUALS          reduce using rule 31 (expression -> expression math_operator expression .)
-    COMMA           reduce using rule 31 (expression -> expression math_operator expression .)
-    COLON           reduce using rule 31 (expression -> expression math_operator expression .)
+    SEMICOLON       reduce using rule 31 (expression -> expression math expression .)
+    RPAREN          reduce using rule 31 (expression -> expression math expression .)
+    COMMENT         reduce using rule 31 (expression -> expression math expression .)
+    ID              reduce using rule 31 (expression -> expression math expression .)
+    NUMBER          reduce using rule 31 (expression -> expression math expression .)
+    STRING          reduce using rule 31 (expression -> expression math expression .)
+    LPAREN          reduce using rule 31 (expression -> expression math expression .)
+    DISP            reduce using rule 31 (expression -> expression math expression .)
+    MOD             reduce using rule 31 (expression -> expression math expression .)
+    IF              reduce using rule 31 (expression -> expression math expression .)
+    WHILE           reduce using rule 31 (expression -> expression math expression .)
+    FOR             reduce using rule 31 (expression -> expression math expression .)
+    END             reduce using rule 31 (expression -> expression math expression .)
+    ELSE            reduce using rule 31 (expression -> expression math expression .)
+    EQUALS          reduce using rule 31 (expression -> expression math expression .)
+    COMMA           reduce using rule 31 (expression -> expression math expression .)
+    COLON           reduce using rule 31 (expression -> expression math expression .)
     COMPARISON      shift and go to state 25
     GREATER         shift and go to state 26
     LESS            shift and go to state 27
@@ -1107,33 +1107,33 @@ state 43
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-  ! COMPARISON      [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! GREATER         [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! LESS            [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! LESSEQUAL       [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! GREATEREQUAL    [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! PLUS            [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! MINUS           [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! TIMES           [ reduce using rule 31 (expression -> expression math_operator expression .) ]
-  ! DIVIDE          [ reduce using rule 31 (expression -> expression math_operator expression .) ]
+  ! COMPARISON      [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! GREATER         [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! LESS            [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! LESSEQUAL       [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! GREATEREQUAL    [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! PLUS            [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! MINUS           [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! TIMES           [ reduce using rule 31 (expression -> expression math expression .) ]
+  ! DIVIDE          [ reduce using rule 31 (expression -> expression math expression .) ]
 
-    math_operator                  shift and go to state 24
-    compare_operator               shift and go to state 23
+    math                           shift and go to state 24
+    compare                        shift and go to state 23
 
 state 44
 
     (19) statement -> ID EQUALS expression .
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     SEMICOLON       reduce using rule 19 (statement -> ID EQUALS expression .)
     COMPARISON      shift and go to state 25
@@ -1146,8 +1146,8 @@ state 44
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 45
 
@@ -1184,17 +1184,17 @@ state 45
 state 46
 
     (32) expression -> DISP LPAREN expression . RPAREN
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     RPAREN          shift and go to state 52
     COMPARISON      shift and go to state 25
@@ -1207,8 +1207,8 @@ state 46
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 47
 
@@ -1233,17 +1233,17 @@ state 47
 state 48
 
     (34) expression -> MOD LPAREN expression . COMMA expression RPAREN
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     COMMA           shift and go to state 54
     COMPARISON      shift and go to state 25
@@ -1256,8 +1256,8 @@ state 48
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 49
 
@@ -1283,8 +1283,8 @@ state 51
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1369,8 +1369,8 @@ state 54
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1419,8 +1419,8 @@ state 56
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1473,17 +1473,17 @@ state 58
 
     (17) loop_statement -> FOR expression EQUALS expression . COLON expression body END
     (18) loop_statement -> FOR expression EQUALS expression . COLON expression COLON expression body END
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     COLON           shift and go to state 61
     COMPARISON      shift and go to state 25
@@ -1496,23 +1496,23 @@ state 58
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 59
 
     (34) expression -> MOD LPAREN expression COMMA expression . RPAREN
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
 
     RPAREN          shift and go to state 62
     COMPARISON      shift and go to state 25
@@ -1525,8 +1525,8 @@ state 59
     TIMES           shift and go to state 32
     DIVIDE          shift and go to state 33
 
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
 
 state 60
 
@@ -1543,8 +1543,8 @@ state 61
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1613,19 +1613,19 @@ state 64
 
     (17) loop_statement -> FOR expression EQUALS expression COLON expression . body END
     (18) loop_statement -> FOR expression EQUALS expression COLON expression . COLON expression body END
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
     (6) body -> . line body
     (7) body -> . empty
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
     (9) line -> . statement SEMICOLON
     (10) line -> . expression SEMICOLON
     (11) line -> . if_statement
@@ -1637,8 +1637,8 @@ state 64
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1672,8 +1672,8 @@ state 64
 
     expression                     shift and go to state 6
     body                           shift and go to state 66
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
     line                           shift and go to state 4
     empty                          shift and go to state 20
     statement                      shift and go to state 5
@@ -1687,8 +1687,8 @@ state 65
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1712,19 +1712,19 @@ state 66
 state 67
 
     (18) loop_statement -> FOR expression EQUALS expression COLON expression COLON expression . body END
-    (26) expression -> expression . compare_operator expression
-    (31) expression -> expression . math_operator expression
+    (26) expression -> expression . compare expression
+    (31) expression -> expression . math expression
     (6) body -> . line body
     (7) body -> . empty
-    (21) compare_operator -> . COMPARISON
-    (22) compare_operator -> . GREATER
-    (23) compare_operator -> . LESS
-    (24) compare_operator -> . LESSEQUAL
-    (25) compare_operator -> . GREATEREQUAL
-    (27) math_operator -> . PLUS
-    (28) math_operator -> . MINUS
-    (29) math_operator -> . TIMES
-    (30) math_operator -> . DIVIDE
+    (21) compare -> . COMPARISON
+    (22) compare -> . GREATER
+    (23) compare -> . LESS
+    (24) compare -> . LESSEQUAL
+    (25) compare -> . GREATEREQUAL
+    (27) math -> . PLUS
+    (28) math -> . MINUS
+    (29) math -> . TIMES
+    (30) math -> . DIVIDE
     (9) line -> . statement SEMICOLON
     (10) line -> . expression SEMICOLON
     (11) line -> . if_statement
@@ -1736,8 +1736,8 @@ state 67
     (4) expression -> . STRING
     (5) expression -> . ID
     (20) expression -> . LPAREN expression RPAREN
-    (26) expression -> . expression compare_operator expression
-    (31) expression -> . expression math_operator expression
+    (26) expression -> . expression compare expression
+    (31) expression -> . expression math expression
     (32) expression -> . DISP LPAREN expression RPAREN
     (33) expression -> . DISP LPAREN STRING RPAREN
     (34) expression -> . MOD LPAREN expression COMMA expression RPAREN
@@ -1770,8 +1770,8 @@ state 67
 
     expression                     shift and go to state 6
     body                           shift and go to state 69
-    compare_operator               shift and go to state 23
-    math_operator                  shift and go to state 24
+    compare                        shift and go to state 23
+    math                           shift and go to state 24
     line                           shift and go to state 4
     empty                          shift and go to state 20
     statement                      shift and go to state 5

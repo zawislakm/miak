@@ -67,9 +67,10 @@ def t_NUMBER(t):
     r'\d+\.?\d*'
     return t
 
+
 def t_COMMENT(t):
     r'%.*'
-    return  t
+    return t
 
 
 t_ignore = " \t"
@@ -87,7 +88,6 @@ def t_error(t):
 
 lexer = lex.lex()
 output_f = open(output_filename, "wt")
-
 
 
 def p_program(t):
@@ -117,14 +117,13 @@ def p_expression_string(t):
     t[0] = t[1]
 
 
+def p_error(p):
+    print("Syntax error in input!")
+
+
 def p_expression_id(t):
     'expression : ID'
     t[0] = t[1]
-
-
-def p_expression_group(t):
-    'expression : LPAREN expression RPAREN'
-    t[0] = "(" + t[2] + ")"
 
 
 def p_body(t):
@@ -148,8 +147,7 @@ def p_line(t):
             | expression SEMICOLON
             | if_statement
             | loop_statement
-            | COMMENT
-            '''
+            | COMMENT'''
     t[0] = t[1]
     if len(t) == 3:
         t[0] += ";"
@@ -218,13 +216,13 @@ def p_assign(t):
         t[0] = f'{t[1]} = {str(t[3])}'
 
 
-def p_expression_group(t):
+def p_group_expression(t):
     'expression : LPAREN expression RPAREN'
     t[0] = "(" + t[2] + ")"
 
 
-def p_compare_operator(t):
-    '''compare_operator : COMPARISON
+def p_compare(t):
+    '''compare : COMPARISON
                     |  GREATER
                     |  LESS
                     |  LESSEQUAL
@@ -233,21 +231,21 @@ def p_compare_operator(t):
 
 
 def p_compare_expression(t):
-    '''expression : expression compare_operator expression'''
+    '''expression : expression compare expression'''
 
     t[0] = f"{t[1]} {t[2]} {t[3]}"
 
 
-def p_math_operator(t):
-    '''math_operator : PLUS
+def p_math(t):
+    '''math : PLUS
                       | MINUS
                       | TIMES
                       | DIVIDE'''
     t[0] = t[1]
 
 
-def p_expression_binop(t):
-    '''expression : expression math_operator expression'''
+def p_math_expression(t):
+    '''expression : expression math expression'''
     t[0] = f'{t[1]} {t[2]} {t[3]}'
 
 

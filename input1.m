@@ -1,4 +1,5 @@
 % Test comment
+% test 2
 test = "Test string";
 disp(test);
 
